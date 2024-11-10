@@ -1,7 +1,10 @@
 """File to define River class."""
 
-from ex07.fish import Fish
-from ex07.bear import Bear
+__author__ = "730813763"
+
+
+from fish import Fish
+from bear import Bear
 
 class River:
     
@@ -21,22 +24,48 @@ class River:
             self.bears.append(Bear())
 
     def check_ages(self):
-        return None
+        alive_fish = []
+        alive_bears = []
+        for fish in self.fish:
+            if fish.age <= 3:
+                alive_fish.append(fish)
+
+        for bear in self.bears:
+            if bear.age <= 5:
+                alive_bears.append(bear)
+
+        self.fish = alive_fish
+        self.bears = alive_bears
+
 
     def bears_eating(self):
-        return None
-    
+        for bear in self.bears:
+            if len(self.fish) >= 5:
+                self.remove_fish(3)
+                bear.eat(3)
+
     def check_hunger(self):
-        return None
-        
+        alive_bears = []
+        for bear in self.bears:
+            if bear.hunger_score >= 0:
+                alive_bears.append(bear)
+
+        self.bears = alive_bears
+
     def repopulate_fish(self):
-        return None
+        num_new_fish = len(self.fish) // 2 * 4
+        for _ in range(num_new_fish):
+            self.fish.append(Fish())
     
     def repopulate_bears(self):
-        return None
-    
+        num_new_bears = len(self.bears) // 2
+        for _ in range(num_new_bears):
+            self.bears.append(Bear())    
+
     def view_river(self):
-        return None
+        print(f"~~~ Day {self.day}: ~~~")
+        print(f"Fish population: {len(self.fish)}")
+        print(f"Bear population: {len(self.bears)}")
             
     def one_river_day(self):
         """Simulate one day of life in the river"""
@@ -60,4 +89,14 @@ class River:
         self.repopulate_bears()
         # Visualize River
         self.view_river()
-            
+
+    def one_river_week(self):
+        for _ in range(7):
+            self.one_river_day()
+
+    def remove_fish(self, amount: int):
+        for _ in range(amount):
+            self.fish.pop(0)
+
+    
+                    
